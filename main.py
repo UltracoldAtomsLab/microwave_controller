@@ -9,6 +9,10 @@ from util import *
 
 template = "t0 {index:04x} {freq0:08x},{phase0:04x},{amp0:04x},{time:02x}\nt1 {index:04x} {freq1:08x},{phase1:04x},{amp1:04x},{time:02x}\n"
 WAIT_TRIG = 255
+emptyConfig = '''{
+"portPTS" = None,
+"portNova" = None,
+}'''
 
 
 class main(QMainWindow, Ui_mainWindow):
@@ -32,6 +36,9 @@ class main(QMainWindow, Ui_mainWindow):
         self.pushButton_Novarefresh.clicked.connect(self.refreshNova)
         self.pushButton_SET_Nova.clicked.connect(self.setNova)
 
+        self.load_config()
+
+
     def refreshPTS(self):
         self.comboBox_port_list_PTS.clear()
         port_list = [i[0] for i in list(serial.tools.list_ports.comports())]
@@ -39,6 +46,7 @@ class main(QMainWindow, Ui_mainWindow):
 
         
     def setPTS(self):
+
         try:
             port = str(self.comboBox_port_list_PTS.currentText())
             self.serPTS.setPort(port)
@@ -113,6 +121,27 @@ class main(QMainWindow, Ui_mainWindow):
         except Exception as err:
             QMessageBox.about(self, "ERROR", str(err))
             return
+
+    def load_config(self):
+        try:
+            s = open('config.txt', 'r').read()
+            d = eval(s)
+        except IOError:
+            with open("config.txt", 'w') as f:
+                f.write(emptyConfig)
+
+        try:
+            p = self.comboBox_port_list_PTS.findText(str(d["portPTS"]))
+            self.comboBox_port_list_PTS.setCurrentIndex(p)
+        except Exception:
+            pass
+
+        try:
+            p = self.comboBox_port_list_Nova.findText(str(d["portNova"]))
+            self.comboBox_port_list_Nova.setCurrentIndex(p)
+        except Exception:
+            pass
+
 
 
 if __name__ == "__main__":
