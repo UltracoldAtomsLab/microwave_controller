@@ -1,11 +1,15 @@
 import sys
-from PyQt4.QtGui import *
-from mainwindow import Ui_mainWindow
+
 import serial
 import serial.tools.list_ports
+from PyQt4.QtGui import *
+
+from mainwindow import Ui_mainWindow
 from util import *
 
-template = "t0 {index} {freq0},{phase0},{amp0},{time}\nt1 {index} {freq1},{phase1},{amp1},{time}\n"
+template = "t0 {index:04x} {freq0:08x},{phase0:04x},{amp0:04x},{time:02x}\nt1 {index:04x} {freq1:08x},{phase1:04x},{amp1:04x},{time:02x}\n"
+WAIT_TRIG = 255
+
 
 class main(QMainWindow, Ui_mainWindow):
     def __init__(self):
@@ -13,12 +17,12 @@ class main(QMainWindow, Ui_mainWindow):
         self.setupUi(self)
         # serial port initialization PTS
         self.serPTS = serial.Serial()
-        self.serPTS.setBaudrate(115200)                                         """HOW to decide Baudrate!!?"""
+        self.serPTS.setBaudrate(115200)
         self.serPTS.setStopbits(2)
         self.refreshPTS()
         #seriral port initialization Novatech
         self.serNova = serial.Serial()
-        self.serNova.setBaudrate(19200)                                         """HOW to decide Baudrate!!?"""
+        self.serNova.setBaudrate(19200)
         self.serNova.setStopbits(2)
         self.refreshNova()
         # link buttons PTS
@@ -26,7 +30,7 @@ class main(QMainWindow, Ui_mainWindow):
         self.pushButton_SET_PTS.clicked.connect(self.setPTS)
         #link buttons Novatech
         self.pushButton_Novarefresh.clicked.connect(self.refreshNova)
-        """self.pushButton_SET_Nova.clicked.connect(self.setNova)"""
+        self.pushButton_SET_Nova.clicked.connect(self.setNova)
 
     def refreshPTS(self):
         self.comboBox_port_list_PTS.clear()
@@ -81,31 +85,38 @@ class main(QMainWindow, Ui_mainWindow):
                 self.serNova.open()
             loop = int(self.spinBox_Nova.value())
 
-        Novaf0i = int(self.lineEdit_Novaf0i)
-        Novaf0d = int(self.lineEdit_Novaf0d)
-        Novaf1i = int(self.lineEdit_Novaf1i)
-        Novaf1d = int(self.lineEdit_Novaf1d)
-        NovaA0i = int(self.lineEdit_NovaA0i)
-        NovaA0d = int(self.lineEdit_NovaA0d)
-        NovaA1i = int(self.lineEdit_NovaA0i)
-        NovaA1d = int(self.lineEdit_NovaA0d)
-        Novap0i = int(self.lineEdit_Novap0i)
-        Novap0d = int(self.lineEdit_Novap0d)
-        Novap1i = int(self.lineEdit_Novap1i)
-        Novap1d = int(self.lineEdit_Novap1d)
+            Novaf0i = int(self.lineEdit_Novaf0i.displayText())
+            Novaf0d = int(self.lineEdit_Novaf0d.displayText())
+            Novaf1i = int(self.lineEdit_Novaf1i.displayText())
+            Novaf1d = int(self.lineEdit_Novaf1d.displayText())
+            NovaA0i = int(self.lineEdit_NovaA0i.displayText())
+            NovaA0d = int(self.lineEdit_NovaA0d.displayText())
+            NovaA1i = int(self.lineEdit_NovaA0i.displayText())
+            NovaA1d = int(self.lineEdit_NovaA0d.displayText())
+            Novap0i = int(self.lineEdit_Novap0i.displayText())
+            Novap0d = int(self.lineEdit_Novap0d.displayText())
+            Novap1i = int(self.lineEdit_Novap1i.displayText())
+            Novap1d = int(self.lineEdit_Novap1d.displayText())
 
-        index = 0
-        to_write = "m 0\n"
-        for i in range(loop):
-            to_write += template.format()
-        to_write += template.format()
-        to_write += 'm t\n'
+            index = 0
+            to_write = "m 0\n"
+            for i in range(loop):
+                to_write += template.format(index=index, time=WAIT_TRIG,
+                                            freq0=Novaf0i + i * Novaf0d, phase0=Novap0i + i * Novap0d,
+                                            amp0=NovaA0i + i * NovaA0d,
+                                            freq1=Novaf1i + i * Novaf1d, phase1=Novap1i + i * Novap1d,
+                                            amp1=NovaA1i + i * NovaA1d, )
+            to_write += 'm t\n'
 
-        self.serNova(to_write)
+            print to_write
+            self.serNova.write(to_write)
+        except Exception as err:
+            QMessageBox.about(self, "ERROR", str(err))
+            return
 
 
-
-app = QApplication(sys.argv)
-mainprogram = main()
-mainprogram.show()
-sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    mainprogram = main()
+    mainprogram.show()
+    sys.exit(app.exec_())
