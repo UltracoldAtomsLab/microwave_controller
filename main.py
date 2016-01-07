@@ -101,10 +101,10 @@ class main(QMainWindow, Ui_mainWindow):
             NovaA0d = int(float(self.lineEdit_NovaA0d.displayText())*1023)
             NovaA1i = int(float(self.lineEdit_NovaA0i.displayText())*1023)
             NovaA1d = int(float(self.lineEdit_NovaA0d.displayText())*1023)
-            Novap0i = int(float(self.lineEdit_Novap0i.displayText()))
-            Novap0d = int(float(self.lineEdit_Novap0d.displayText()))
-            Novap1i = int(float(self.lineEdit_Novap1i.displayText()))
-            Novap1d = int(float(self.lineEdit_Novap1d.displayText()))
+            Novap0i = int(float(self.lineEdit_Novap0i.displayText())*8192)
+            Novap0d = int(float(self.lineEdit_Novap0d.displayText())*8192)
+            Novap1i = int(float(self.lineEdit_Novap1i.displayText())*8192)
+            Novap1d = int(float(self.lineEdit_Novap1d.displayText())*8192)
 
             to_write = "m 0\n"
             for i in range(loop):
