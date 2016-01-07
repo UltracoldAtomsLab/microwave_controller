@@ -2,7 +2,8 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created by: PyQt4 UI code generator 4.11.4
+# Created: Thu Jan 07 16:15:13 2016
+#      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -222,6 +223,21 @@ class Ui_mainWindow(object):
         self.pushButton_SET_Nova = QtGui.QPushButton(self.tab_2)
         self.pushButton_SET_Nova.setGeometry(QtCore.QRect(520, 330, 75, 23))
         self.pushButton_SET_Nova.setObjectName(_fromUtf8("pushButton_SET_Nova"))
+        self.label_33 = QtGui.QLabel(self.tab_2)
+        self.label_33.setGeometry(QtCore.QRect(240, 100, 31, 20))
+        self.label_33.setObjectName(_fromUtf8("label_33"))
+        self.label_34 = QtGui.QLabel(self.tab_2)
+        self.label_34.setGeometry(QtCore.QRect(240, 130, 31, 20))
+        self.label_34.setObjectName(_fromUtf8("label_34"))
+        self.label_35 = QtGui.QLabel(self.tab_2)
+        self.label_35.setGeometry(QtCore.QRect(570, 100, 31, 20))
+        self.label_35.setObjectName(_fromUtf8("label_35"))
+        self.label_36 = QtGui.QLabel(self.tab_2)
+        self.label_36.setGeometry(QtCore.QRect(570, 130, 31, 20))
+        self.label_36.setObjectName(_fromUtf8("label_36"))
+        self.label_37 = QtGui.QLabel(self.tab_2)
+        self.label_37.setGeometry(QtCore.QRect(470, 10, 91, 21))
+        self.label_37.setObjectName(_fromUtf8("label_37"))
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.label = QtGui.QLabel(self.centralWidget)
         self.label.setGeometry(QtCore.QRect(430, 0, 211, 16))
@@ -237,7 +253,7 @@ class Ui_mainWindow(object):
         self.checkBox_2.setObjectName(_fromUtf8("checkBox_2"))
         mainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(mainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 689, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 689, 25))
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         mainWindow.setMenuBar(self.menuBar)
         self.mainToolBar = QtGui.QToolBar(mainWindow)
@@ -310,6 +326,11 @@ class Ui_mainWindow(object):
         self.lineEdit_Novaf1i.setText(_translate("mainWindow", "0", None))
         self.lineEdit_NovaA1d.setText(_translate("mainWindow", "0", None))
         self.pushButton_SET_Nova.setText(_translate("mainWindow", "SET", None))
+        self.label_33.setText(_translate("mainWindow", "Hz", None))
+        self.label_34.setText(_translate("mainWindow", "Hz", None))
+        self.label_35.setText(_translate("mainWindow", "Hz", None))
+        self.label_36.setText(_translate("mainWindow", "Hz", None))
+        self.label_37.setText(_translate("mainWindow", "amp: 0~1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("mainWindow", "Novatech", None))
         self.label.setText(_translate("mainWindow", "Chung-You Shih @ lab107 IAMS", None))
         self.commandLinkButton.setText(_translate("mainWindow", "SET ALL", None))

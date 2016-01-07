@@ -10,8 +10,8 @@ from util import *
 template = "t0 {index:04x} {freq0:08x},{phase0:04x},{amp0:04x},{time:02x}\nt1 {index:04x} {freq1:08x},{phase1:04x},{amp1:04x},{time:02x}\n"
 WAIT_TRIG = 255
 emptyConfig = '''{
-"portPTS" = None,
-"portNova" = None,
+"portPTS" : None,
+"portNova" : None,
 }'''
 
 
@@ -93,29 +93,27 @@ class main(QMainWindow, Ui_mainWindow):
                 self.serNova.open()
             loop = int(self.spinBox_Nova.value())
 
-            Novaf0i = int(self.lineEdit_Novaf0i.displayText())
-            Novaf0d = int(self.lineEdit_Novaf0d.displayText())
-            Novaf1i = int(self.lineEdit_Novaf1i.displayText())
-            Novaf1d = int(self.lineEdit_Novaf1d.displayText())
-            NovaA0i = int(self.lineEdit_NovaA0i.displayText())
-            NovaA0d = int(self.lineEdit_NovaA0d.displayText())
-            NovaA1i = int(self.lineEdit_NovaA0i.displayText())
-            NovaA1d = int(self.lineEdit_NovaA0d.displayText())
-            Novap0i = int(self.lineEdit_Novap0i.displayText())
-            Novap0d = int(self.lineEdit_Novap0d.displayText())
-            Novap1i = int(self.lineEdit_Novap1i.displayText())
-            Novap1d = int(self.lineEdit_Novap1d.displayText())
+            Novaf0i = int(float(self.lineEdit_Novaf0i.displayText())*10)
+            Novaf0d = int(float(self.lineEdit_Novaf0d.displayText())*10)
+            Novaf1i = int(float(self.lineEdit_Novaf1i.displayText())*10)
+            Novaf1d = int(float(self.lineEdit_Novaf1d.displayText())*10)
+            NovaA0i = int(float(self.lineEdit_NovaA0i.displayText())*1023)
+            NovaA0d = int(float(self.lineEdit_NovaA0d.displayText())*1023)
+            NovaA1i = int(float(self.lineEdit_NovaA0i.displayText())*1023)
+            NovaA1d = int(float(self.lineEdit_NovaA0d.displayText())*1023)
+            Novap0i = int(float(self.lineEdit_Novap0i.displayText()))
+            Novap0d = int(float(self.lineEdit_Novap0d.displayText()))
+            Novap1i = int(float(self.lineEdit_Novap1i.displayText()))
+            Novap1d = int(float(self.lineEdit_Novap1d.displayText()))
 
-            index = 0
             to_write = "m 0\n"
             for i in range(loop):
-                to_write += template.format(index=index, time=WAIT_TRIG,
+                to_write += template.format(index=i, time=WAIT_TRIG,
                                             freq0=Novaf0i + i * Novaf0d, phase0=Novap0i + i * Novap0d,
                                             amp0=NovaA0i + i * NovaA0d,
                                             freq1=Novaf1i + i * Novaf1d, phase1=Novap1i + i * Novap1d,
                                             amp1=NovaA1i + i * NovaA1d, )
             to_write += 'm t\n'
-
             print to_write
             self.serNova.write(to_write)
         except Exception as err:
